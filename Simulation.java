@@ -112,14 +112,19 @@ public class Simulation {
       }
 
       // print results
+      int concencusCount = 0;
+
       for (int i = 0; i < numNodes; i++) {
-         Set<Transaction> transactions = nodes[i].sendToFollowers();
-         System.out.println("Transaction ids that Node " + i + " believes consensus on:");
-         for (Transaction tx : transactions)
-            System.out.println(tx.id);
-         System.out.println();
-         System.out.println();
+            Set<Transaction> transactions = nodes[i].sendToFollowers();
+            // System.out.println("Transaction ids that Node " + i + " believes consensus on:");
+      //    for (Transaction tx : transactions)
+      //       System.out.println(tx.id);
+            if (transactions.size() != 0) {
+                  concencusCount++;
+            }
       }
+
+      System.out.println("Concensus Nodes: " + concencusCount + " from 100 Nodes");
 
    }
 
