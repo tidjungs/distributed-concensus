@@ -39,15 +39,16 @@ public class CompliantNode implements Node {
 
     public void receiveFromFollowees(Set<Candidate> candidates) {
         Set<Integer> senders = candidates.stream().map(c -> c.sender).collect(toSet());
+        
         for (int i=0; i<followees.length; i++) {
             if (followees[i] && !senders.contains(i)) {
                 blacklists[i] = true;
             }
         }
-        for (Candidate c : candidates) {
-            if (!blacklists[c.sender]) {
-                pendingTransactions.add(c.tx);
-            }
-        }
+        
+        this.pendingTransactions = candidates.stream()
+            .filter(candidate -> !this.blacklists[candidate.sender])
+            .map(candidate -> candidate.tx)
+            .collect(toSet());
     }
 }
